@@ -14,15 +14,45 @@ PyGrid Node is a server based application used by the [PyGrid Platform](https://
 
 ### Start Grid Nodes locally
 
-#### Using Docker
 
-##### Download the latest docker image
-The latest PyGrid Node image are available on the Docker Hub.
-- PyGrid Node - `openmined/grid-node`
-
-##### Build your own image
+#### Using Python
+To start a grid node using python, run:
 ```
-$ docker build -t openmined/grid-node .  # Build PyGrid node image
+python websocket_app.py 
+```
+You can pass the arguments or use environment variables to set the grid node configs.  
+
+**Arguments**
+```
+  -h, --help                shows the help message and exit
+  --id [ID]                 the grid node identifier, e.g. --id=alice.
+  -p [PORT], --port [PORT]  port to run the server on
+  --host [HOST]             the grid node host
+  --gateway_url [URL]       address used to join a Grid Network.
+  --db_url [URL]            REDIS database server address
+```
+
+**Environment Variables**
+- `ID` - The grid node identifier
+- `PORT` -  Port to run server on.
+- `ADDRESS` - The grid node address/host
+- `REDISCLOUD_URL` - The redis database URL
+- `GRID_GATEWAy_URL` - The address used to join a Grid Network
+
+### Docker
+
+The latest PyGrid Node image are available on the Docker Hub  
+
+PyGrid Node Docker image - `openmined/grid-node`
+
+#### Pulling images
+```
+$ docker pull openmined/grid-node  # Download grid node image
+```
+
+#### Build your own PyGrid Node image
+```
+$ docker build openmined/grid-node . # Build grid node image
 ```
 
 ## Try out the Tutorials
