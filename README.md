@@ -18,7 +18,7 @@ PyGrid Node is a server based application used by the [PyGrid Platform](https://
 #### Using Python
 To start a grid node using python, run:
 ```
-python websocket_app.py 
+python grid_node.py 
 ```
 You can pass the arguments or use environment variables to set the grid node configs.  
 
