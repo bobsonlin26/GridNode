@@ -35,6 +35,7 @@ def create_app(node_id, debug=False, database_url=None):
     # set_node_id(id)
     local_worker.id = node_id
     hook.local_worker._known_workers[node_id] = local_worker
+    local_worker.add_worker(hook.local_worker)
 
     # Register app blueprints
     app.register_blueprint(html, url_prefix=r"/")
