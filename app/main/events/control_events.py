@@ -5,17 +5,22 @@ from syft.grid.authentication.account import AccountCredential
 
 from flask_login import login_user
 
-from .. import local_worker, hook
+from .. import local_worker, hook, sy
 from ..auth import authenticated_only, get_session
 
 
-def get_node_id(message: dict) -> str:
+def get_node_infos(message: dict) -> str:
     """ Returns node id.
 
         Returns:
             response (str) : Response message containing node id.
     """
-    return json.dumps({RESPONSE_MSG.NODE_ID: local_worker.id})
+    return json.dumps(
+        {
+            RESPONSE_MSG.NODE_ID: local_worker.id,
+            RESPONSE_MSG.SYFT_VERSION: sy.__version__,
+        }
+    )
 
 
 def authentication(message: dict) -> str:

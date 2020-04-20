@@ -14,7 +14,7 @@ import json
 # Websocket events routes
 # This structure allows compatibility between javascript applications (syft.js/grid.js) and PyGrid.
 routes = {
-    REQUEST_MSG.GET_ID: get_node_id,
+    REQUEST_MSG.GET_ID: get_node_infos,
     REQUEST_MSG.CONNECT_NODE: connect_grid_nodes,
     REQUEST_MSG.HOST_MODEL: host_model,
     REQUEST_MSG.RUN_INFERENCE: run_inference,
