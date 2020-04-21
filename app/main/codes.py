@@ -13,3 +13,7 @@ class MODEL:
     MPC = "mpc"
     PROPERTIES = "model_properties"
     SIZE = "model_size"
+
+
+class GRID:
+    SYFT_VERSION = "syft_version"

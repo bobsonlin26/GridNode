@@ -2,7 +2,7 @@ import json
 from syft.workers.node_client import NodeClient
 from syft.codes import RESPONSE_MSG
 from syft.grid.authentication.account import AccountCredential
-
+from ..codes import GRID
 from flask_login import login_user
 
 from .. import local_worker, hook, sy
@@ -16,10 +16,7 @@ def get_node_infos(message: dict) -> str:
             response (str) : Response message containing node id.
     """
     return json.dumps(
-        {
-            RESPONSE_MSG.NODE_ID: local_worker.id,
-            RESPONSE_MSG.SYFT_VERSION: sy.__version__,
-        }
+        {RESPONSE_MSG.NODE_ID: local_worker.id, GRID.SYFT_VERSION: sy.__version__,}
     )
 
 
