@@ -10,6 +10,8 @@ from .control_events import *
 
 from syft.codes import REQUEST_MSG
 import json
+import time
+import pdb
 
 # Websocket events routes
 # This structure allows compatibility between javascript applications (syft.js/grid.js) and PyGrid.
@@ -45,16 +47,20 @@ def route_requests(message):
 @ws.route("/")
 def socket_api(socket):
     """ Handle websocket connections and receive their messages.
-    
+
         Args:
             socket : websocket instance.
     """
     while not socket.closed:
         message = socket.receive()
+        start_time = time.time()
         if not message:
             continue
         else:
             response = route_requests(message)
+            end_time = time.time()
+            print(start_time, end_time, end_time - start_time)
+            # print("Get a message !", "start_time:", start_time, "end_time:", end_time, "duration:", end_time - start_time)
             if isinstance(response, bytearray):
                 socket.send(response, binary=True)
             else:
