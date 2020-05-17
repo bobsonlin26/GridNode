@@ -10,7 +10,7 @@ from syft.exceptions import ObjectNotFoundError
 
 
 def set_persistent_mode(redis_db):
-    """ Update/Overwrite PySyft ObjectStorage to work in a persistent mode.
+    """ Update/Overwrite PySyft ObjectStore to work in a persistent mode.
         Args:
             redis_db : Redis database instance.
     """
@@ -50,10 +50,10 @@ def set_persistent_mode(redis_db):
         return obj
 
     # Overwrite default object storage methods
-    ObjectStorage.set_obj = _set_obj
-    ObjectStorage.get_obj = _get_obj
-    ObjectStorage.rm_obj = _rm_obj
-    ObjectStorage.force_rm_obj = _force_rm_obj
+    ObjectStore.set_obj = _set_obj
+    ObjectStore.get_obj = _get_obj
+    ObjectStore.rm_obj = _rm_obj
+    ObjectStore.force_rm_obj = _force_rm_obj
 
 
 def recover_objects(worker):
