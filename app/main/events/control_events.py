@@ -16,7 +16,10 @@ def get_node_infos(message: dict) -> str:
             response (str) : Response message containing node id.
     """
     return json.dumps(
-        {RESPONSE_MSG.NODE_ID: local_worker.id, GRID.SYFT_VERSION: sy.__version__,}
+        {
+            RESPONSE_MSG.NODE_ID: local_worker.id,
+            GRID.SYFT_VERSION: sy.version.__version__,
+        }
     )
 
 
