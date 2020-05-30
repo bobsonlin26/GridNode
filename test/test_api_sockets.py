@@ -197,7 +197,7 @@ def test_send_private_tensor(connected_node):
     x = th.tensor([1.0, 0.4])
 
     # Private Tensor
-    _x = x.private_tensor(allowed_users=("user"))
+    _x = x.private_tensor(allowed_users=["user"])
 
     # Pointer to private tensor.
     p_x = _x.send(connected_node["alice"], user="user")
@@ -208,7 +208,7 @@ def test_get_private_tensor(connected_node):
     x = th.tensor([1.0, 0.4])
 
     # Private Tensor
-    _x = x.private_tensor(allowed_users=("user"))
+    _x = x.private_tensor(allowed_users=["user"])
 
     # Pointer to private tensor.
     p_x = _x.send(connected_node["alice"], user="user")
