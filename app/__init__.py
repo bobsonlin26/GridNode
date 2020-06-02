@@ -108,11 +108,11 @@ def create_mnist_parallel_app(node_id, debug=False, database_url=None, training=
     # set_node_id(id)
     local_worker.id = node_id
     hook.local_worker._known_workers[node_id] = local_worker
-    print("###", "local_worker.__class__:", local_worker.__class__, "###")
+    # print("###", "local_worker.__class__:", local_worker.__class__, "###")
 
     ## added by bobsonlin
     local_worker.add_worker(hook.local_worker)
-    print("###", "hook.local_worker.__class__:", hook.local_worker.__class__, "###")
+    # print("###", "hook.local_worker.__class__:", hook.local_worker.__class__, "###")
 
     ## added by bobsonlin
     if training == True:
