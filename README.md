@@ -24,17 +24,26 @@ pip install .
 ## Usage
 
 ```bash
-python -m grid <arguments>
+python -m gridnode <arguments>
 ```
 You can pass the arguments or use environment variables to set the gateway configs.  
 
 **Arguments**
 ```
   -h, --help                shows the help message and exit
-  -p [PORT], --port [PORT]  port to run server on (default: 5000)
-  --host [HOST]             the grid gateway host
-  --num_replicas            the number of replicas to provide fault tolerance to model hosting
-  --start_local_db          if this flag is used a SQLAlchemy DB URI is generated to use a local db
+  --id ID                   Grid node ID, e.g. --id=alice. Default is
+                            os.environ.get('GRID_WS_ID', None).
+
+  --port PORT, -p PORT      Port number of the socket.io server, e.g. --port=8777.
+                            Default is os.environ.get('GRID_WS_PORT', None).
+
+  --host HOST               Grid node host, e.g. --host=0.0.0.0.
+                            Default is os.environ.get('GRID_WS_HOST','http://0.0.0.0').
+
+  --gateway_url GATEWAY_URL Address used to join a Grid Network. This argument isoptional.
+                            Default is os.environ.get('GRID_NETWORK_URL', None).
+
+  --db_url DB_URL           REDIS database server address
 ```
 
 **Environment Variables**
@@ -47,7 +56,7 @@ You can pass the arguments or use environment variables to set the gateway confi
 Example:
 
 ```bash
-python -m grid --id=alice --port=5000
+python -m gridnode --id=alice --port=5000
 ```
 
 

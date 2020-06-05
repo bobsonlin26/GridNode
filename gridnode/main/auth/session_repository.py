@@ -17,8 +17,8 @@ class SessionsRepository(object):
         self.save_session(self._admin, self._admin.username())
 
     def save_session(self, user: UserMixin, key: str):
-        """ Register new user session at session repository. 
-            
+        """ Register new user session at session repository.
+
             Args:
                 user (UserMixin) : User session instance to be registered.
                 key (str): Key used to identify the new user session.
@@ -40,7 +40,7 @@ class SessionsRepository(object):
     # Recover user session by session id
     def get_session_by_id(self, sessionid: str):
         """ Retrieve user session registered at session repository.
-            
+
             Args:
                 sessionid (str) : ID of user session.
             Returns:
@@ -50,7 +50,7 @@ class SessionsRepository(object):
 
     def authenticate(self, payload: dict):
         """ Performs authentication process.
-            
+
             Args:
                 payload (dict) : Dict structure containing user credentials.
             Returns:

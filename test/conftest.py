@@ -6,6 +6,7 @@ import sys
 import syft
 from syft.workers.node_client import NodeClient
 from syft.grid.public_grid import PublicGridNetwork
+import gridnode
 
 from . import IDS, PORTS
 import time
@@ -42,7 +43,7 @@ def init_nodes(node_infos):
     BASEDIR = os.path.dirname(os.path.dirname(__file__))
 
     def setUpNode(port, node_id):
-        from app import create_app as ws_create_app
+        from gridnode import create_app as ws_create_app
 
         app = ws_create_app(node_id, debug=False, database_url=None)
         server = pywsgi.WSGIServer(("", int(port)), app, handler_class=WebSocketHandler)

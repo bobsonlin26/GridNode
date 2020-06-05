@@ -9,48 +9,56 @@ import sys
 
 import argparse
 
-from app import create_app
+from gridnode import create_app
 
 from gevent import pywsgi
 from geventwebsocket.handler import WebSocketHandler
 
 parser = argparse.ArgumentParser(description="Run Grid Node application.")
+parser._action_groups.pop()
 
-parser.add_argument(
+required = parser.add_argument_group("required  arguments")
+optional = parser.add_argument_group("optional arguments")
+
+
+required.add_argument(
     "--id",
     type=str,
     help="Grid node ID, e.g. --id=alice. Default is os.environ.get('GRID_WS_ID', None).",
     default=os.environ.get("GRID_WS_ID", None),
+    required=True,
 )
 
-parser.add_argument(
+required.add_argument(
     "--port",
     "-p",
     type=int,
     help="Port number of the socket.io server, e.g. --port=8777. Default is os.environ.get('GRID_WS_PORT', None).",
     default=os.environ.get("GRID_WS_PORT", None),
+    required=True,
 )
 
-parser.add_argument(
+optional.add_argument(
     "--host",
     type=str,
     help="Grid node host, e.g. --host=0.0.0.0. Default is os.environ.get('GRID_WS_HOST','http://0.0.0.0').",
     default=os.environ.get("GRID_WS_HOST", "0.0.0.0"),
 )
 
-parser.add_argument(
+optional.add_argument(
     "--gateway_url",
     type=str,
     help="Address used to join a Grid Network. This argument is optional. Default is os.environ.get('GRID_NETWORK_URL', None).",
     default=os.environ.get("GRID_NETWORK_URL", None),
 )
 
-parser.add_argument(
+optional.add_argument(
     "--db_url",
     type=str,
     help="REDIS database server address",
     default=os.environ.get("REDISCLOUD_URL", ""),
 )
+
 
 parser.set_defaults(use_test_config=False)
 

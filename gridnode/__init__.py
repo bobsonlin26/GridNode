@@ -1,10 +1,11 @@
 from flask import Flask
 from flask_sockets import Sockets
+from .version import __version__
 
 
 def create_app(node_id, debug=False, database_url=None):
     """ Create / Configure flask socket application instance.
-        
+
         Args:
             node_id (str) : ID of Grid Node.
             debug (bool) : debug flag.

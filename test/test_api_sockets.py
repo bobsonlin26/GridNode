@@ -454,6 +454,10 @@ def test_sub_shared_tensors(x, y, connected_node):
     assert th.allclose(result_s.get().float_prec(), result, atol=1e-3)
 
 
+@pytest.mark.skipif(
+    condition=sy.version.__version__ == "0.2.6",
+    reason="Reported bug, see https://github.com/OpenMined/PySyft/issues/3648",
+)
 @pytest.mark.parametrize(
     "x, y,",
     [

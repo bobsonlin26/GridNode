@@ -45,7 +45,7 @@ def route_requests(message):
 @ws.route("/")
 def socket_api(socket):
     """ Handle websocket connections and receive their messages.
-    
+
         Args:
             socket : websocket instance.
     """

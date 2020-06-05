@@ -35,7 +35,7 @@ def get_session():
 @login_manager.user_loader
 def load_user(userid: str) -> UserMixin:
     """ Retrieve user session object from session repository.
-        
+
         Args:
             userid (str) : User id.
         Returns:

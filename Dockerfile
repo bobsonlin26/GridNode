@@ -4,13 +4,13 @@ FROM base as builder
 
 RUN apt-get update
 RUN apt-get install -y git python3-pip python3-dev
-COPY ./requirements.txt /app/requirements.txt
+COPY ./pip-dep /app/pip-dep
 
 WORKDIR /app
-RUN pip3 install --user -Ur requirements.txt
+RUN pip3 install --user -Ur pip-dep/requirements.txt
 
 
-FROM openmined/pysyft-lite as grid_node
+FROM openmined/pysyft-lite as gridnode
 
 COPY --from=builder root/.local root/.local
 

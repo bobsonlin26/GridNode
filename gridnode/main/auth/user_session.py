@@ -11,7 +11,7 @@ class UserSession(UserMixin):
 
     def __init__(self, user: AccountCredential, active=True):
         """ Handle session with User Authentication.
-            
+
             Args:
                 user (AccountCredential) : User instance.
                 active (bool) : Session state.
@@ -30,7 +30,7 @@ class UserSession(UserMixin):
 
     def get_id(self):
         """ Get Session ID.
-            
+
             Returns:
                 ID: Session's ID.
         """
@@ -38,7 +38,7 @@ class UserSession(UserMixin):
 
     def save_tensor_request(self, request_msg: tuple):
         """ Save tensor request at user's request list.
-        
+
             Args:
                 request_msg (tuple) : Tuple structure containing tensor id, credentials and reason.
         """
@@ -47,7 +47,7 @@ class UserSession(UserMixin):
     @property
     def worker(self) -> sy.VirtualWorker:
         """ Get Worker used by current session.
-        
+
             Returns:
                 node (VirtualWorker) : Worker used by this session.
         """
@@ -63,7 +63,7 @@ class UserSession(UserMixin):
 
     def is_active(self) -> bool:
         """ Get session's state.
-        
+
             Returns:
                 session_state (bool) : session's state.
         """
@@ -71,7 +71,7 @@ class UserSession(UserMixin):
 
     def authenticate(self, payload: dict) -> bool:
         """ Verify if payload credentials matches with this user instance.
-        
+
             Args:
                 payload (dict) : Dict containing user credentials.
             Returns:

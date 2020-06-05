@@ -41,8 +41,8 @@ def index():
 
 @html.route("/detailed_models_list/")
 def list_models_with_details():
-    """ Generates a detailed list of models currently saved at the worker 
-        
+    """ Generates a detailed list of models currently saved at the worker
+
         Returns:
             Response : List of models (and their properties) stored at this node.
     """
@@ -72,7 +72,7 @@ def list_models_with_details():
 @html.route("/identity/")
 def identity():
     """ Generates a response with the name of this node.
-    
+
         Returns:
             Response : Name of node
     """
@@ -88,7 +88,7 @@ def identity():
 def show_status():
     """ Generates a response with the status of this node.
         if the nodes is connected to workers, the status is online
-    
+
         Returns:
             Response : Status of node
     """
@@ -110,7 +110,7 @@ def show_status():
 @html.route("/workers/")
 def list_workers():
     """ Generates a list of remote nodes directly connected to this node.
-    
+
         Returns:
             Response : List of node's ids.
     """
@@ -131,7 +131,7 @@ def list_workers():
 @cross_origin()
 def list_models():
     """Generates a list of models currently saved at the worker
-       
+
        Returns:
             Response : List of model's ids stored at this node.
     """
@@ -179,7 +179,7 @@ def serve_model():
 @cross_origin()
 def get_available_tags():
     """ Returns all tags stored in this node. Can be very useful to know what datasets this node contains.
-    
+
         Returns:
             Response : List of dataset tags stored at this node.
     """
