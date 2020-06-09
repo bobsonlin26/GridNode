@@ -10,6 +10,7 @@ from .control_events import *
 
 from syft.codes import REQUEST_MSG
 import json
+import pdb
 
 # Websocket events routes
 # This structure allows compatibility between javascript applications (syft.js/grid.js) and PyGrid.
@@ -34,6 +35,7 @@ def route_requests(message):
     """
     global routes
     if isinstance(message, bytearray):
+        print("***", "Get a binary message !", "***")
         return forward_binary_message(message)
     try:
         message = json.loads(message)
@@ -57,5 +59,8 @@ def socket_api(socket):
             response = route_requests(message)
             if isinstance(response, bytearray):
                 socket.send(response, binary=True)
+                print("***", "Send out a response", "***")
             else:
                 socket.send(response)
+                print("***", "Send out a response", "***")
+                print("")

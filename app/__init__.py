@@ -34,7 +34,8 @@ def create_app(node_id, debug=False, database_url=None):
             app : Flask application instance.
     """
     app = Flask(__name__)
-    app.debug = debug
+    app.debug = True
+    # app.debug = debug
 
     app.config["SECRET_KEY"] = "justasecretkeythatishouldputhere"
 
