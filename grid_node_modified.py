@@ -102,6 +102,8 @@ else:
     node_id = os.environ.get("ID", None)
     node_address = os.environ.get("ADDRESS", None)
     db_address = os.environ.get("REDISCLOUD_URL", None)
+    mnist_parallel = os.environ.get("MNIST_PARALLEL", False)
+    testing = os.environ.get("TESTING", False)
 
     # If using a Gateway URL start the connection
     if gateway_url:
@@ -111,4 +113,8 @@ else:
                 {"node-id": node_id, "node-address": "{}".format(node_address)}
             ),
         )
-    app = create_app(node_id, debug=False, database_url=db_address)
+        
+    if mnist_parallel:
+        app = create_mnist_parallel_app(node_id, debug=False, database_url=db_address, training=not testing)
+    else:
+        app = create_app(node_id, debug=False, database_url=db_address)

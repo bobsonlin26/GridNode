@@ -1,0 +1,18 @@
+FROM billylin26/syft-lite-025 as base
+
+FROM base as builder
+
+RUN apt-get update
+RUN apt-get install -y git python3-pip python3-dev
+COPY ./requirements_docker.txt /app/requirements_docker.txt
+
+WORKDIR /app
+RUN pip3 install --user -r requirements_docker.txt
+
+FROM billylin26/syft-lite-025 as grid_node
+
+COPY --from=builder root/.local root/.local
+
+COPY . /app
+WORKDIR /app
+ENTRYPOINT ["sh", "entrypoint_mnist_parallel.sh"]
