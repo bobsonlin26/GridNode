@@ -105,6 +105,7 @@ else:
     node_address = os.environ.get("ADDRESS", None)
     db_address = os.environ.get("REDISCLOUD_URL", None)
     mnist_parallel = os.environ.get("MNIST_PARALLEL", False)
+    resnet_parallel = os.environ.get("RESNET_PARALLEL", False)
     testing = os.environ.get("TESTING", False)
 
     # If using a Gateway URL start the connection
@@ -118,5 +119,7 @@ else:
 
     if mnist_parallel:
         app = create_mnist_parallel_app(node_id, debug=False, database_url=db_address, training=not testing)
+    elif resnet_parallel:
+        app = create_resnet_parallel_app(node_id, debug=False, database_url=db_address, training=not testing)
     else:
         app = create_app(node_id, debug=False, database_url=db_address)
