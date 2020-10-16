@@ -9,7 +9,7 @@ import sys
 
 import argparse
 
-from app import create_app, create_mnist_parallel_app
+from app import create_app, create_mnist_parallel_app, create_resnet_parallel_app
 
 from gevent import pywsgi
 from geventwebsocket.handler import WebSocketHandler
@@ -79,6 +79,8 @@ if __name__ == "__main__":
     # Create app
     if args.notebook == "mnist-parallel":
         app = create_mnist_parallel_app(args.id, debug=False, database_url=args.db_url, training=not args.testing)
+    elif args.notebook == "resnet-parallel":
+        app = create_resnet_parallel_app(args.id, debug=False, database_url=args.db_url, training=not args.testing)
     else:
         app = create_app(args.id, debug=False, database_url=args.db_url)
 
@@ -113,7 +115,7 @@ else:
                 {"node-id": node_id, "node-address": "{}".format(node_address)}
             ),
         )
-        
+
     if mnist_parallel:
         app = create_mnist_parallel_app(node_id, debug=False, database_url=db_address, training=not testing)
     else:

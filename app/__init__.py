@@ -23,6 +23,23 @@ logger = logging.getLogger("run_websocket_server")
 logger.setLevel(level=logging.DEBUG)
 
 
+def select_samples(original_dataset, keep_labels):
+
+    ## transform to torch.tensor'
+    original_dataset.data = th.from_numpy(original_dataset.data)
+
+    marks = np.isin(original_dataset.targets, keep_labels).astype("uint8")
+
+    indices = [i for i,x in enumerate(marks) if x == 1]
+
+    selected_data = th.stack(list(original_dataset.data[i] for i in indices) ,dim =0)
+    selected_targets = [original_dataset.targets[i] for i in indices]
+
+    ## transform back to numpy
+#     selected_data = selected_data.numpy()
+
+    return (selected_data, selected_targets)
+
 def create_app(node_id, debug=False, database_url=None):
     """ Create / Configure flask socket application instance.
 
@@ -144,6 +161,85 @@ def create_mnist_parallel_app(node_id, debug=False, database_url=None, training=
 
     dataset = sy.BaseDataset(
     data=selected_data, targets=selected_targets, transform=mnist_dataset.transform)
+
+    count = [0] * 10
+    for i in range(10):
+        count[i] = (dataset.targets == i).sum().item()
+        logger.info("      %s: %s", i, count[i])
+
+    local_worker.add_dataset(dataset, key=key)
+
+    # Register app blueprints
+    app.register_blueprint(html, url_prefix=r"/")
+    sockets.register_blueprint(ws, url_prefix=r"/")
+
+    # Set Authentication configs
+    app = auth.set_auth_configs(app)
+
+    return app
+
+
+def create_resnet_parallel_app(node_id, debug=False, database_url=None, training=True):
+    """ Create / Configure flask socket application instance.
+
+        Args:
+            node_id (str) : ID of Grid Node.
+            debug (bool) : debug flag.
+            test_config (bool) : Mock database environment.
+        Returns:
+            app : Flask application instance.
+    """
+    app = Flask(__name__)
+    app.debug = debug
+
+    app.config["SECRET_KEY"] = "justasecretkeythatishouldputhere"
+
+    # Enable persistent mode
+    # Overwrite syft.object_storage methods to work in a persistent way
+    # Persist models / tensors
+    if database_url:
+        app.config["REDISCLOUD_URL"] = database_url
+        from .main.persistence import database, object_storage
+
+        db_instance = database.set_db_instance(database_url)
+        object_storage.set_persistent_mode(db_instance)
+
+    from .main import html, ws, hook, local_worker, auth
+
+    # Global socket handler
+    sockets = Sockets(app)
+
+    # set_node_id(id)
+    local_worker.id = node_id
+    hook.local_worker._known_workers[node_id] = local_worker
+    # print("###", "local_worker.__class__:", local_worker.__class__, "###")
+
+    ## added by bobsonlin
+    local_worker.add_worker(hook.local_worker)
+    # print("###", "hook.local_worker.__class__:", hook.local_worker.__class__, "###")
+
+    ## added by bobsonlin
+    if training == True:
+        key = "cifar10"
+    else:
+        key = "cifar10_testing"
+
+    keep_labels = KEEP_LABELS_DICT[local_worker.id]
+    transform = transforms.Compose(
+    [transforms.ToTensor(),
+     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    cifar10_dataset = datasets.CIFAR10(
+        root="./data",
+        train=training,
+        download=True,
+        transform=transform)
+
+    selected_data, selected_targets = select_samples(cifar10_dataset, keep_labels)
+    logger.info("after selection: %s", selected_data.shape)
+
+    dataset = sy.BaseDataset(
+    data=selected_data, targets=selected_targets, transform=cifar10_dataset.transform)
+    dataset.targets = th.tensor(dataset.targets, dtype=th.long)
 
     count = [0] * 10
     for i in range(10):
