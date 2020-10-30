@@ -138,7 +138,17 @@ def create_mnist_parallel_app(node_id, debug=False, database_url=None, training=
     else:
         key = "mnist_testing"
 
-    keep_labels = KEEP_LABELS_DICT[local_worker.id]
+    if local_worker.id[:2] == "fl":
+        machine_index = int(local_worker.id.split("_")[1])
+        if machine_index % 3 == 0:
+            keep_labels = KEEP_LABELS_DICT["alice"]
+        elif machine_index % 3 == 1:
+            keep_labels = KEEP_LABELS_DICT["bob"]
+        else:
+            keep_labels = KEEP_LABELS_DICT["charlie"]
+    else:
+        keep_labels = KEEP_LABELS_DICT[local_worker.id]
+
     mnist_dataset = datasets.MNIST(
         root="./data",
         train=training,
