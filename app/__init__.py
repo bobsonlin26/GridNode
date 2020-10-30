@@ -139,7 +139,7 @@ def create_mnist_parallel_app(node_id, debug=False, database_url=None, training=
         key = "mnist_testing"
 
     if local_worker.id[:2] == "fl":
-        machine_index = int(local_worker.id.split("_")[1])
+        machine_index = int(local_worker.id.split("-")[1])
         if machine_index % 3 == 0:
             keep_labels = KEEP_LABELS_DICT["alice"]
         elif machine_index % 3 == 1:
