@@ -234,7 +234,29 @@ def create_resnet_parallel_app(node_id, debug=False, database_url=None, training
     else:
         key = "cifar10_testing"
 
-    keep_labels = KEEP_LABELS_DICT[local_worker.id]
+    # keep_labels = KEEP_LABELS_DICT[local_worker.id]
+    if local_worker.id[:2] == "fl":
+        machine_index = int(local_worker.id.split("-")[1])
+        if machine_index % 3 == 0:
+            keep_labels = KEEP_LABELS_DICT["alice"]
+        elif machine_index % 3 == 1:
+            keep_labels = KEEP_LABELS_DICT["bob"]
+        else:
+            keep_labels = KEEP_LABELS_DICT["charlie"]
+    else:
+        keep_labels = KEEP_LABELS_DICT[local_worker.id]
+
+    mnist_dataset = datasets.MNIST(
+        root="./data",
+        train=training,
+        download=True,
+        transform=transforms.Compose(
+            [transforms.ToTensor(), transforms.Normalize((0.1307,), (0.3081,))]
+        ),
+    )
+
+
+
     transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
